@@ -5,24 +5,6 @@ All datasets are loaded within [Kaggle Notebooks](https://www.kaggle.com/code), 
 
 ---
 
-## 🧽 Repository Structure
-
-```bash
-Kaggle_competition_mu/
-├── titanic/
-│   ├── notebooks/        # Jupyter notebooks: EDA, models, final
-│   ├── scripts/          # Utility scripts (preprocessing, models)
-│   ├── submissions/      # (Optional) submission CSVs
-│   └── README.md         # Competition-specific notes
-├── house-prices/
-├── bone-age/
-├── utils/                # Shared functions for reuse
-├── requirements.txt
-└── README.md             # This file
-```
-
----
-
 ## 🚀 Competitions
 
 | Competition                                                                             | Description                     | Status          | 

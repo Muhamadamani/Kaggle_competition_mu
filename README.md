@@ -27,7 +27,7 @@ Kaggle_competition_mu/
 
 | Competition                                                                             | Description                     | Status          | Folder                           |
 | --------------------------------------------------------------------------------------- | ------------------------------- | --------------- | -------------------------------- |
-| [🏷️ Titanic](https://www.kaggle.com/c/titanic)                                         | Predict survival on the Titanic | ✅ Finished      | [`titanic`](./titanic)           |
+| [🏷️ Predict the Introverts from the Extroverts](https://www.kaggle.com/competitions/playground-series-s5e7)                                         | Predict Intro from Extro | ✅ Finished      | [`Introverts`](./Introverts)           |
 
 
 ---

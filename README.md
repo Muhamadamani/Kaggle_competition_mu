@@ -25,9 +25,9 @@ Kaggle_competition_mu/
 
 ## 🚀 Competitions
 
-| Competition                                                                             | Description                     | Status          | Folder                           |
-| --------------------------------------------------------------------------------------- | ------------------------------- | --------------- | -------------------------------- |
-| [🏷️ Predict the Introverts from the Extroverts](https://www.kaggle.com/competitions/playground-series-s5e7)                                         | Predict Intro from Extro | ✅ Finished      | [`Introverts`](./Introverts)           |
+| Competition                                                                             | Description                     | Status          | 
+| --------------------------------------------------------------------------------------- | ------------------------------- | --------------- |
+| [🏷️ Predict the Introverts from the Extroverts](https://www.kaggle.com/competitions/playground-series-s5e7)                                         | Predict Intro from Extro | ✅ Finished|
 
 
 ---

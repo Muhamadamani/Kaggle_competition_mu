@@ -1,0 +1,197 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "3902704b",
+   "metadata": {
+    "_cell_guid": "b1076dfc-b9ad-4769-8c92-a6c4dae69d19",
+    "_uuid": "8f2839f25d086af736a60e9eeb907d3b93b6e0e5",
+    "execution": {
+     "iopub.execute_input": "2025-08-30T18:35:39.834111Z",
+     "iopub.status.busy": "2025-08-30T18:35:39.833761Z",
+     "iopub.status.idle": "2025-08-30T18:35:42.244032Z",
+     "shell.execute_reply": "2025-08-30T18:35:42.242665Z"
+    },
+    "papermill": {
+     "duration": 2.41593,
+     "end_time": "2025-08-30T18:35:42.245857",
+     "exception": false,
+     "start_time": "2025-08-30T18:35:39.829927",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/kaggle/input/spaceship-titanic/sample_submission.csv\n",
+      "/kaggle/input/spaceship-titanic/train.csv\n",
+      "/kaggle/input/spaceship-titanic/test.csv\n"
+     ]
+    }
+   ],
+   "source": [
+    "# This Python 3 environment comes with many helpful analytics libraries installed\n",
+    "# It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python\n",
+    "# For example, here's several helpful packages to load\n",
+    "\n",
+    "import numpy as np # linear algebra\n",
+    "import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)\n",
+    "\n",
+    "# Input data files are available in the read-only \"../input/\" directory\n",
+    "# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory\n",
+    "\n",
+    "import os\n",
+    "for dirname, _, filenames in os.walk('/kaggle/input'):\n",
+    "    for filename in filenames:\n",
+    "        print(os.path.join(dirname, filename))\n",
+    "\n",
+    "# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using \"Save & Run All\" \n",
+    "# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "c5aefab5",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-08-30T18:35:42.252058Z",
+     "iopub.status.busy": "2025-08-30T18:35:42.251583Z",
+     "iopub.status.idle": "2025-08-30T18:35:42.290574Z",
+     "shell.execute_reply": "2025-08-30T18:35:42.289421Z"
+    },
+    "papermill": {
+     "duration": 0.04424,
+     "end_time": "2025-08-30T18:35:42.292409",
+     "exception": false,
+     "start_time": "2025-08-30T18:35:42.248169",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  PassengerId  Transported\n",
+      "0     0013_01        False\n",
+      "1     0018_01        False\n",
+      "2     0019_01        False\n",
+      "3     0021_01        False\n",
+      "4     0023_01        False\n"
+     ]
+    }
+   ],
+   "source": [
+    "sample_submission = pd.read_csv('/kaggle/input/spaceship-titanic/sample_submission.csv')\n",
+    "print(sample_submission.head(5))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "935321c2",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-08-30T18:35:42.297469Z",
+     "iopub.status.busy": "2025-08-30T18:35:42.297180Z",
+     "iopub.status.idle": "2025-08-30T18:35:42.362723Z",
+     "shell.execute_reply": "2025-08-30T18:35:42.361452Z"
+    },
+    "papermill": {
+     "duration": 0.070313,
+     "end_time": "2025-08-30T18:35:42.364767",
+     "exception": false,
+     "start_time": "2025-08-30T18:35:42.294454",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  PassengerId HomePlanet CryoSleep  Cabin  Destination   Age    VIP  \\\n",
+      "0     0001_01     Europa     False  B/0/P  TRAPPIST-1e  39.0  False   \n",
+      "1     0002_01      Earth     False  F/0/S  TRAPPIST-1e  24.0  False   \n",
+      "2     0003_01     Europa     False  A/0/S  TRAPPIST-1e  58.0   True   \n",
+      "3     0003_02     Europa     False  A/0/S  TRAPPIST-1e  33.0  False   \n",
+      "4     0004_01      Earth     False  F/1/S  TRAPPIST-1e  16.0  False   \n",
+      "\n",
+      "   RoomService  FoodCourt  ShoppingMall     Spa  VRDeck               Name  \\\n",
+      "0          0.0        0.0           0.0     0.0     0.0    Maham Ofracculy   \n",
+      "1        109.0        9.0          25.0   549.0    44.0       Juanna Vines   \n",
+      "2         43.0     3576.0           0.0  6715.0    49.0      Altark Susent   \n",
+      "3          0.0     1283.0         371.0  3329.0   193.0       Solam Susent   \n",
+      "4        303.0       70.0         151.0   565.0     2.0  Willy Santantines   \n",
+      "\n",
+      "   Transported  \n",
+      "0        False  \n",
+      "1         True  \n",
+      "2        False  \n",
+      "3        False  \n",
+      "4         True  \n"
+     ]
+    }
+   ],
+   "source": [
+    "train = pd.read_csv('/kaggle/input/spaceship-titanic/train.csv')\n",
+    "print(train.head(5))"
+   ]
+  }
+ ],
+ "metadata": {
+  "kaggle": {
+   "accelerator": "none",
+   "dataSources": [
+    {
+     "databundleVersionId": 3220602,
+     "sourceId": 34377,
+     "sourceType": "competition"
+    }
+   ],
+   "dockerImageVersionId": 31089,
+   "isGpuEnabled": false,
+   "isInternetEnabled": true,
+   "language": "python",
+   "sourceType": "notebook"
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.13"
+  },
+  "papermill": {
+   "default_parameters": {},
+   "duration": 9.421271,
+   "end_time": "2025-08-30T18:35:42.988606",
+   "environment_variables": {},
+   "exception": null,
+   "input_path": "__notebook__.ipynb",
+   "output_path": "__notebook__.ipynb",
+   "parameters": {},
+   "start_time": "2025-08-30T18:35:33.567335",
+   "version": "2.6.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
